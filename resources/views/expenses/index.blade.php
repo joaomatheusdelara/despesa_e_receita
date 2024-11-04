@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto p-4">
-    <h2 class="text-2xl font-bold mb-4">Despesas e Receitas</h2>
+    <h2 class="text-2xl font-bold mb-4">Despesas & Receitas</h2>
 
     <!-- Botão para adicionar nova despesa/receita -->
     <div class="mb-4">
@@ -15,6 +15,7 @@
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
+                <thead class="bg-gray-100 shadow-lg"> 
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
