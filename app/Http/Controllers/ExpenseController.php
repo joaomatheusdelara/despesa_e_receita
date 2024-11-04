@@ -5,15 +5,36 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Expense;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ExpenseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $despesas = Expense::all();
-        return view('expenses.index', compact('despesas'));
-    }
+        // Configura o locale para exibir os meses em português
+        Carbon::setLocale('pt_BR');
 
+        // Recebe o mês selecionado como filtro
+        $mes = $request->input('mes');
+
+        // Cria uma query base e aplica o filtro de mês, se fornecido
+        $expenses = Expense::query();
+
+        if ($mes) {
+            $expenses->whereMonth('data', $mes); // Usa o valor numérico diretamente
+        }
+
+        // Pagina os resultados, com 10 itens por página
+        $expenses = $expenses->paginate(10);
+
+        // Gera a lista de meses em português para o filtro
+        $meses = [];
+        foreach (range(1, 12) as $i) {
+            $meses[$i] = Carbon::create()->month($i)->translatedFormat('F');
+        }
+
+        return view('expenses.index', compact('expenses', 'mes', 'meses'));
+    }
     public function create()
     {
         return view('expenses.create');
@@ -22,6 +43,7 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nome' => 'required|string|max:255',
             'tipo' => 'required',
             'data' => 'required|date',
             'nota_fiscal' => 'nullable|string',
@@ -47,6 +69,7 @@ class ExpenseController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'nome' => 'required|string|max:255',
             'tipo' => 'required|string',
             'data' => 'required|date',
             'nota_fiscal' => 'nullable|string',
@@ -96,5 +119,4 @@ class ExpenseController extends Controller
     
         return view('dashboard', compact('dadosFinanceiros'));
     }
-    
 }
