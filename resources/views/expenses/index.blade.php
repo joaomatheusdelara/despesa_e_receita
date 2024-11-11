@@ -14,14 +14,24 @@
     <!-- Formulário de filtro por mês -->
     <form action="{{ route('expenses.index') }}" method="GET" class="mb-6 flex items-center">
         <label for="mes" class="text-sm font-medium text-gray-700 mr-2">Filtrar por Mês:</label>
-        <select name="mes" id="mes" class="border-gray-300 rounded-md text-sm py-2 px- mr-4 shadow-sm">
-            <option value="">Selecione o mês</option>
-            @foreach ($meses as $numero => $nome)
-                <option value="{{ $numero }}" {{ request('mes') == $numero ? 'selected' : '' }}>
-                    {{ ucfirst($nome) }}
-                </option>
-            @endforeach
-        </select>
+            <select name="mes" id="mes" class="border-gray-300 rounded-md text-sm py-2 px- mr-4 shadow-sm">
+                <option value="">Selecione o mês</option>
+                @foreach ($meses as $numero => $nome)
+                    <option value="{{ $numero }}" {{ request('mes') == $numero ? 'selected' : '' }}>
+                        {{ ucfirst($nome) }}
+                    </option>
+                @endforeach
+            </select>
+
+            <label for="tipo" class="text-sm font-medium text-gray-700 mr-2">Filtrar por Tipo:</label>
+                <select name="tipo" id="tipo" class="border-gray-300 rounded-md text-sm py-2 px- mr-4 shadow-sm">
+                    <option value="">Selecione o tipo</option>
+                    @foreach ($tipos as $key => $value)
+                        <option value="{{ $key }}" {{ request('tipo') == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+</select>
         <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md">Filtrar</button>
     </form>
 

@@ -14,14 +14,19 @@ class ExpenseController extends Controller
         // Configura o locale para exibir os meses em português
         Carbon::setLocale('pt_BR');
 
-        // Recebe o mês selecionado como filtro
+        // Recebe os filtros de mês e tipo selecionados
         $mes = $request->input('mes');
+        $tipo = $request->input('tipo');
 
-        // Cria uma query base e aplica o filtro de mês, se fornecido
+        // Cria uma query base e aplica os filtros, se fornecidos
         $expenses = Expense::query();
 
         if ($mes) {
             $expenses->whereMonth('data', $mes); // Usa o valor numérico diretamente
+        }
+
+        if ($tipo) {
+            $expenses->where('tipo', $tipo); // Filtra por tipo (despesa ou receita)
         }
 
         // Pagina os resultados, com 10 itens por página
@@ -33,8 +38,12 @@ class ExpenseController extends Controller
             $meses[$i] = Carbon::create()->month($i)->translatedFormat('F');
         }
 
-        return view('expenses.index', compact('expenses', 'mes', 'meses'));
+        // Tipos de transações para o filtro (despesa ou receita)
+        $tipos = ['despesa' => 'Despesa', 'receita' => 'Receita'];
+
+        return view('expenses.index', compact('expenses', 'mes', 'meses', 'tipo', 'tipos'));
     }
+
     public function create()
     {
         return view('expenses.create');
@@ -44,7 +53,7 @@ class ExpenseController extends Controller
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'tipo' => 'required',
+            'tipo' => 'required|string|in:despesa,receita',
             'data' => 'required|date',
             'nota_fiscal' => 'nullable|string',
             'categoria' => 'required|string',
@@ -70,7 +79,7 @@ class ExpenseController extends Controller
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'tipo' => 'required|string',
+            'tipo' => 'required|string|in:despesa,receita',
             'data' => 'required|date',
             'nota_fiscal' => 'nullable|string',
             'categoria' => 'required|string',
@@ -94,7 +103,8 @@ class ExpenseController extends Controller
         return redirect()->route('expenses.index')->with('success', 'Despesa & Receita excluída com sucesso.');
     }
 
-    public function dashboard(){
+    public function dashboard()
+    {
         // Mapeamento de números de meses para nomes em português
         $mesesPortugues = [
             1 => 'Janeiro', 2 => 'Fevereiro', 3 => 'Março', 4 => 'Abril',
