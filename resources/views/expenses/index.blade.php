@@ -25,14 +25,15 @@
 
             <label for="tipo" class="text-sm font-medium text-gray-700 mr-2">Filtrar por Tipo:</label>
                 <select name="tipo" id="tipo" class="border-gray-300 rounded-md text-sm py-2 px- mr-4 shadow-sm">
-                    <option value="">Selecione o tipo</option>
+                    <option value="">Todos</option>
                     @foreach ($tipos as $key => $value)
                         <option value="{{ $key }}" {{ request('tipo') == $key ? 'selected' : '' }}>
                             {{ $value }}
                         </option>
                     @endforeach
 </select>
-        <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md">Filtrar</button>
+<button type="submit" class="bg-[#50cd89] text-white font-bold py-2 px-4 rounded-md">Filtrar</button>
+
     </form>
 
     <!-- Tabela responsiva -->
@@ -85,4 +86,7 @@
         {{ $expenses->appends(['mes' => request('mes')])->links('vendor.pagination.tailwind') }}
     </div>
 </div>
+
+
+
 @endsection

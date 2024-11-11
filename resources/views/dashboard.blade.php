@@ -4,16 +4,18 @@
             {{ __('Dashboard') }}
         </h2>
    
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+        <div class="min-h-screen flex flex-col justify-between">
+            <div class="flex-grow py-12">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-12">
                 <h2 class="text-2xl font-bold mb-4">Resumo Financeiro Mensal</h2>
                 
                 <!-- Canvas do Gráfico -->
                 <canvas id="financeChart" style="width: 100%; height: 400px;"></canvas>
             </div>
         </div>
+
+
+
     </div>
 
     <!-- Inclua o Chart.js -->
@@ -116,6 +118,10 @@
     }
             });
         });
+
     </script>
+
+
      </x-slot>
+     
 </x-app-layout>

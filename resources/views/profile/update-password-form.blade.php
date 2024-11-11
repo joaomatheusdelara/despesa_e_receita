@@ -1,39 +1,37 @@
-<x-form-section submit="updatePassword">
+<x-action-section>
     <x-slot name="title">
-        {{ __('Update Password') }}
+        {{ __('Atualizar Senha') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Ensure your account is using a long, random password to stay secure.') }}
+        {{ __('Mantenha sua conta segura atualizando sua senha regularmente.') }}
     </x-slot>
 
-    <x-slot name="form">
-        <div class="col-span-6 sm:col-span-4">
-            <x-label for="current_password" value="{{ __('Current Password') }}" />
-            <x-input id="current_password" type="password" class="mt-1 block w-full" wire:model="state.current_password" autocomplete="current-password" />
-            <x-input-error for="current_password" class="mt-2" />
-        </div>
+    <x-slot name="content">
+        <form method="POST" action="{{ route('user-password.update') }}">
+            @csrf
+            @method('PUT')
 
-        <div class="col-span-6 sm:col-span-4">
-            <x-label for="password" value="{{ __('New Password') }}" />
-            <x-input id="password" type="password" class="mt-1 block w-full" wire:model="state.password" autocomplete="new-password" />
-            <x-input-error for="password" class="mt-2" />
-        </div>
+            <div class="mb-4">
+                <x-label for="current_password" value="{{ __('Senha Atual') }}" />
+                <x-input id="current_password" type="password" name="current_password" required autocomplete="current-password" class="block mt-1 w-full" />
+            </div>
 
-        <div class="col-span-6 sm:col-span-4">
-            <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-            <x-input id="password_confirmation" type="password" class="mt-1 block w-full" wire:model="state.password_confirmation" autocomplete="new-password" />
-            <x-input-error for="password_confirmation" class="mt-2" />
-        </div>
+            <div class="mb-4">
+                <x-label for="password" value="{{ __('Nova Senha') }}" />
+                <x-input id="password" type="password" name="password" required autocomplete="new-password" class="block mt-1 w-full" />
+            </div>
+
+            <div class="mb-4">
+                <x-label for="password_confirmation" value="{{ __('Confirmar Nova Senha') }}" />
+                <x-input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="block mt-1 w-full" />
+            </div>
+
+            <div class="flex justify-end">
+                <x-button>
+                    {{ __('Atualizar Senha') }}
+                </x-button>
+            </div>
+        </form>
     </x-slot>
-
-    <x-slot name="actions">
-        <x-action-message class="me-3" on="saved">
-            {{ __('Saved.') }}
-        </x-action-message>
-
-        <x-button>
-            {{ __('Save') }}
-        </x-button>
-    </x-slot>
-</x-form-section>
+</x-action-section>
